@@ -1,0 +1,9 @@
+* {
+   margin: 0;
+   padding: 0;
+}
+
+.book-container {
+   border: 1px solid black;
+   margin-bottom: 1rem;
+}
