@@ -1,3 +1,9 @@
+const title = document.querySelector("#title");
+const author = document.querySelector("#author");
+const pages = document.querySelector("#pages");
+const isRead = document.querySelector("#isRead");
+const submitButton = document.querySelector("button[type='submit']");
+
 const books = [];
 
 function Book(title, author, pages, isRead) {
@@ -9,14 +15,7 @@ function addBook(title, author, pages, isRead) {
 	books.push(book);
 }
 
-addBook("Prisoner of Azkaban", "JK Rowling", 222, false);
-addBook("Sorcerer's Stone", "JK Rowling", 234, true);
-addBook("Prisoner of Azkaban", "JK Rowling", 222, false);
-addBook("Sorcerer's Stone", "JK Rowling", 234, true);
-addBook("Prisoner of Azkaban", "JK Rowling", 222, false);
-addBook("Sorcerer's Stone", "JK Rowling", 234, true);
-addBook("Prisoner of Azkaban", "JK Rowling", 222, false);
-addBook("Sorcerer's Stone", "JK Rowling", 234, true);
+// addBook(title.value, author.value, pages.value, isRead.value);
 
 function displayBook() {
 	books.forEach((book, i) => {
@@ -52,14 +51,19 @@ function displayBook() {
 		toggleButton.addEventListener("click", e => {
 			e.target.parentElement.dataset.id;
 			books[i].isRead = !books[i].isRead;
-         isRead.innerText = book.isRead ? "Read" : "Not Read";
+			isRead.innerText = book.isRead ? "Read" : "Not Read";
 			console.log(books[i]);
-         console.log(e.target.parentElement.dataset.id);
-         console.log(books);
+			console.log(e.target.parentElement.dataset.id);
+			console.log(books);
 		});
 	});
 }
 
-displayBook();
+submitButton.addEventListener("click", (e) => {
+	e.preventDefault();
 
-console.log(books);
+	addBook(title.value, author.value, pages.value, isRead.value);
+   displayBook();
+});
+
+
