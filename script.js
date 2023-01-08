@@ -34,6 +34,8 @@ Book.prototype.createBook = function (id) {
 	isRead.innerText = this.isRead ? "Read" : "Not Read";
 	bookContainer.appendChild(isRead);
 
+   // a button on each book’s display to change its read status.
+
 	const toggleButton = document.createElement("button");
 	toggleButton.className = "toggle-button";
 	toggleButton.innerText = "Toggle Status";
@@ -44,6 +46,8 @@ Book.prototype.createBook = function (id) {
 		isRead.innerText = this.isRead ? "Read" : "Not Read";
 		console.log(this.isRead);
 	});
+
+   // a button on each book’s display to remove the book.
 
 	const removeButton = document.createElement("button");
 	removeButton.className = "remove-button";
@@ -81,14 +85,6 @@ function displayBooks(array) {
 	}
 }
 
-submitButton.addEventListener("click", e => {
-	e.preventDefault();
-	storeBook();
-	refreshPage();
-
-	console.log(books);
-});
-
 function refreshPage() {
 	const container = document.querySelector(".container");
 	while (container.firstChild) {
@@ -96,3 +92,11 @@ function refreshPage() {
 	}
    displayBooks(books);
 }
+
+submitButton.addEventListener("click", e => {
+	e.preventDefault();
+	storeBook();
+	refreshPage();
+
+	console.log(books);
+});
