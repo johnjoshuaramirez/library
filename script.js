@@ -1,6 +1,5 @@
 const submitButton = document.querySelector("button[type='submit']");
 
-const removeButton = document.querySelector(".remove-button");
 const books = [];
 
 function Book(title, author, pages, isRead) {
@@ -40,16 +39,23 @@ Book.prototype.createBook = function (id) {
 	toggleButton.innerText = "Toggle Status";
 	bookContainer.appendChild(toggleButton);
 
-   toggleButton.addEventListener("click", () => {
-      this.isRead = !this.isRead;
-      isRead.innerText = this.isRead ? "Read" : "Not Read";
-      console.log(this.isRead);
-   });
+	toggleButton.addEventListener("click", () => {
+		this.isRead = !this.isRead;
+		isRead.innerText = this.isRead ? "Read" : "Not Read";
+		console.log(this.isRead);
+	});
 
 	const removeButton = document.createElement("button");
 	removeButton.className = "remove-button";
 	removeButton.innerText = "Remove";
 	bookContainer.appendChild(removeButton);
+
+   removeButton.addEventListener("click", e => {
+      const id = e.target.parentElement.dataset.id;
+      books.splice(id, 1);
+      refreshPage();
+      console.log(books);
+   });
 
 	const container = document.querySelector(".container");
 	container.appendChild(bookContainer);
@@ -67,9 +73,6 @@ function storeBook() {
 	books.push(book);
 }
 
-const book = new Book("Harry Potter", "JK Rowling", 123, true);
-books.push(book);
-
 // a function that loops through the array and displays each book on the page.
 
 function displayBooks(array) {
@@ -82,16 +85,8 @@ submitButton.addEventListener("click", e => {
 	e.preventDefault();
 	storeBook();
 	refreshPage();
-	displayBooks(books);
 
 	console.log(books);
-});
-
-removeButton.addEventListener("click", e => {
-	const id = e.target.parentElement.dataset.id;
-	books.splice(id, 1);
-	refreshPage();
-	displayBooks();
 });
 
 function refreshPage() {
@@ -99,4 +94,5 @@ function refreshPage() {
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
+   displayBooks(books);
 }
