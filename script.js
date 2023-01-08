@@ -44,10 +44,9 @@ Book.prototype.createBook = function (id) {
 	toggleButton.addEventListener("click", () => {
 		this.isRead = !this.isRead;
 		isRead.innerText = this.isRead ? "Read" : "Not Read";
-		console.log(this.isRead);
 	});
 
-   // a button on each book’s display to remove the book.
+   // a button on each book’s display to remove the book object.
 
 	const removeButton = document.createElement("button");
 	removeButton.className = "remove-button";
@@ -58,7 +57,6 @@ Book.prototype.createBook = function (id) {
       const id = e.target.parentElement.dataset.id;
       books.splice(id, 1);
       refreshPage();
-      console.log(books);
    });
 
 	const container = document.querySelector(".container");
@@ -87,9 +85,11 @@ function displayBooks(array) {
 
 function refreshPage() {
 	const container = document.querySelector(".container");
+
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
+
    displayBooks(books);
 }
 
@@ -97,6 +97,4 @@ submitButton.addEventListener("click", e => {
 	e.preventDefault();
 	storeBook();
 	refreshPage();
-
-	console.log(books);
 });
