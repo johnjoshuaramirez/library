@@ -14,7 +14,7 @@ Book.prototype.createBook = function (id) {
 	bookContainer.className = "book-container";
 	bookContainer.dataset.id = id;
 
-	const title = document.createElement("h2");
+	const title = document.createElement("h3");
 	title.className = "book-title";
 	title.innerText = this.title;
 	bookContainer.appendChild(title);
