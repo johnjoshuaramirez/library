@@ -29,35 +29,30 @@ Book.prototype.createBook = function (id) {
 	pages.innerText = this.pages;
 	bookContainer.appendChild(pages);
 
-	const isRead = document.createElement("p");
+	// a button on each book’s display to change its read status.
+
+	const isRead = document.createElement("button");
 	isRead.className = "isRead";
-	isRead.innerText = this.isRead ? "Read" : "Not Read";
+	isRead.innerText = this.isRead ? "Read" : "Not Read";;
 	bookContainer.appendChild(isRead);
 
-   // a button on each book’s display to change its read status.
-
-	const toggleButton = document.createElement("button");
-	toggleButton.className = "toggle-button";
-	toggleButton.innerText = "Toggle Status";
-	bookContainer.appendChild(toggleButton);
-
-	toggleButton.addEventListener("click", () => {
+	isRead.addEventListener("click", () => {
 		this.isRead = !this.isRead;
 		isRead.innerText = this.isRead ? "Read" : "Not Read";
 	});
 
-   // a button on each book’s display to remove the book object.
+	// a button on each book’s display to remove the book object.
 
 	const removeButton = document.createElement("button");
 	removeButton.className = "remove-button";
-	removeButton.innerText = "Remove";
+	removeButton.innerText = "×";
 	bookContainer.appendChild(removeButton);
 
-   removeButton.addEventListener("click", e => {
-      const id = e.target.parentElement.dataset.id;
-      books.splice(id, 1);
-      refreshPage();
-   });
+	removeButton.addEventListener("click", e => {
+		const id = e.target.parentElement.dataset.id;
+		books.splice(id, 1);
+		refreshPage();
+	});
 
 	const container = document.querySelector(".container");
 	container.appendChild(bookContainer);
@@ -85,12 +80,11 @@ function displayBooks(array) {
 
 function refreshPage() {
 	const container = document.querySelector(".container");
-
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}
 
-   displayBooks(books);
+	displayBooks(books);
 }
 
 submitButton.addEventListener("click", e => {
@@ -98,3 +92,10 @@ submitButton.addEventListener("click", e => {
 	storeBook();
 	refreshPage();
 });
+
+const bookOne = new Book("Harry Potter", "JK Rowling", 123, false);
+const bookTwo = new Book("Harry Potter", "JK Rowling", 123, false);
+books.push(bookOne);
+books.push(bookTwo);
+displayBooks(books);
+console.log(books);

@@ -9,18 +9,26 @@
    <script src="script.js" defer></script>
 </head>
 <body>
+   <header>
+      <h1>library</h1>
+      <button class="upload-button"><span>+</span> Upload</button>
+      <button>Log in</button>
+   </header>
    <form action="#" class="book-form">
-      <label for="title">Title</label>
-      <input type="text" name="title" id="title"><br>
-      <label for="author">Author</label>
-      <input type="text" name="author" id="author"><br>
-      <label for="pages">Pages</label>
-      <input type="text" name="pages" id="pages"><br>
-      <label for="isRead">isRead</label>
-      <input type="checkbox" name="isRead" id="isRead"><br>
+      <h2>Book</h2>
+      <label for="title">Title</label><br>
+      <input type="text" name="title" id="title" placeholder="Title"><br>
+      <label for="author">Author</label><br>
+      <input type="text" name="author" id="author" placeholder="Author"><br>
+      <label for="pages">Pages</label><br>
+      <input type="text" name="pages" id="pages" placeholder="Pages"><br>
+      <input type="checkbox" name="isRead" id="isRead">
+      <label for="isRead">I am done reading this book.</label><br>
+      
       <button type="submit">Submit</button>
    </form>
-   <button class="new-book-button">New Book</button>
+   
+   
    <div class="container"></div> 
 </body>
 </html>
