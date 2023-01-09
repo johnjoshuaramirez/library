@@ -5,32 +5,70 @@
    padding: 0;
    box-sizing: border-box;
    font-family: 'Poppins', sans-serif;
+   color: white;
 }
 
 body {
-   width: 100vw;
+   height: 100vh;
    position: relative;
+   background-color: black;
 }
 
-form {
+header {
+   border-bottom: 1px solid gray;
+   padding: 0.75rem 5rem;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.book-form {
    position: absolute;
-   top: 5rem;
-   right: 5rem;
-   border: 1px solid black;
+   bottom: 1.25rem;
+   right: 6rem;
+   bottom: 2rem;
+   display: none;
+   border: 1px solid white;
    padding: 1rem;
    border-radius: .5rem;
+   width: 17rem;
+   height: auto;
 }
 
-label {
+.book-form h2 {
+   margin-bottom: .5rem;
+}
+
+.book-form label {
    font-size: .875rem;
    font-weight: 500;
    line-height: .75rem;
 }
 
-header {
-   border-bottom: 1px solid black;
-   padding: 0.75rem 5rem;
-   display: flex;
+input {
+   background-color: black;
+   color: white;
+   border: 1px solid white;
+   outline: none;
+}
+
+input[type="text"], 
+input[type="number"] {
+   height: 2rem;
+   width: 100%;
+   margin-bottom: 0.75rem;
+   font-size: 0.875rem;
+   padding: 1rem 0.5rem;
+   border-radius: 3px;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+   font-size: 0.875rem;
+}
+
+button {
+   color: black;
 }
 
 header button,
@@ -39,32 +77,6 @@ form button {
    height: 38px;
 }
 
-.upload-button {
-   margin-left: auto;
-   margin-right: 1rem;
-}
-
-form h2 {
-   margin-bottom: .5rem;
-}
-
-input[type="text"] {
-   height: 2rem;
-   width: 14rem;
-   margin-bottom: 0.75rem;
-   font-size: 0.875rem;
-   border: 1px solid black;
-   padding: 1rem 0.5rem;
-   border-radius: 3px;
-}
-
-input[type="text"]::placeholder {
-   font-size: 0.875rem;
-}
-
-input[type="checkbox"] {
-   /* margin-top: 2rem; */
-}
 
 button[type="submit"] {
    margin-top: .75rem;
@@ -79,25 +91,15 @@ button[type="submit"] {
 }
 
 .book-container {
+   position: relative;
+   display: flex;
    flex-direction: column;
    justify-content: flex-end;
    align-items: flex-start;
-   position: relative;
-   border: 1px solid black;
+   border: 1px solid white;
    padding: 1rem;
    height: 10rem;
    border-radius: .5rem;
-   display: flex;
-
-}
-
-.isRead {
-   align-self: flex-end;
-   height: 2rem;
-   min-width: 4.75rem;
-   min-height: initial;
-   cursor: pointer;
-   position: absolute;
 }
 
 .remove-button {
@@ -109,4 +111,40 @@ button[type="submit"] {
    cursor: pointer;
    background: none;
    border: none;
+   color: white;
 }
+
+.isRead {
+   align-self: flex-end;
+   height: 2rem;
+   min-width: 4.75rem;
+   min-height: initial;
+   cursor: pointer;
+   position: absolute;
+}
+
+.show {
+   display: initial;
+}
+
+.upload-button {
+   position: absolute;
+   bottom: 2rem;
+   right: 2rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 40px;
+   cursor: pointer;
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+   border: 1px solid white;
+   color: black;
+   background-color: white;
+}
+
+.upload-button::selection {
+   background: none;
+}
+

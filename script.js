@@ -1,4 +1,5 @@
-const submitButton = document.querySelector("button[type='submit']");
+const uploadButton = document.querySelector(".upload-button");
+const form = document.querySelector("form");
 
 const books = [];
 
@@ -33,7 +34,7 @@ Book.prototype.createBook = function (id) {
 
 	const isRead = document.createElement("button");
 	isRead.className = "isRead";
-	isRead.innerText = this.isRead ? "Read" : "Not Read";;
+	isRead.innerText = this.isRead ? "Read" : "Not Read";
 	bookContainer.appendChild(isRead);
 
 	isRead.addEventListener("click", () => {
@@ -87,15 +88,23 @@ function refreshPage() {
 	displayBooks(books);
 }
 
-submitButton.addEventListener("click", e => {
+uploadButton.addEventListener("click", () => {
+	form.classList.toggle("show");
+	if (uploadButton.innerText === "+") {
+		uploadButton.innerText = "×";
+	} else {
+      uploadButton.innerText = "+";
+   }
+});
+
+form.addEventListener("submit", e => {
 	e.preventDefault();
 	storeBook();
 	refreshPage();
+	form.reset();
+	form.classList.remove("show");
 });
 
 const bookOne = new Book("Harry Potter", "JK Rowling", 123, false);
-const bookTwo = new Book("Harry Potter", "JK Rowling", 123, false);
 books.push(bookOne);
-books.push(bookTwo);
 displayBooks(books);
-console.log(books);
