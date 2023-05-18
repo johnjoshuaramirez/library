@@ -1,35 +1,71 @@
-import { useState } from 'react';
-import { auth, provider } from '../config/firebase';
-import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { provider, auth } from '../config/firebase';
+import {
+  signInWithPopup,
+  signOut,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged
+} from 'firebase/auth';
+import { setUserName, clearUserName, setUserId } from '../features/user/userSlice';
+import { fetchBooks, resetBooks } from '../features/books/booksSlice';
 
 function Header() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
 
-  onAuthStateChanged(auth, user => {
-    setCurrentUser(user);
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const username = user.displayName;
+        const userId = user.uid;
+        localStorage.setItem('username', username);
+        dispatch(setUserName(username));
+        dispatch(setUserId(userId));
+        dispatch(fetchBooks(userId));
+      } else {
+        localStorage.removeItem('username');
+        dispatch(clearUserName());
+        dispatch(resetBooks());
+      }
+    });
 
-  async function signInWithGoogle() {
-    await signInWithPopup(auth, provider);
-  }
+    return () => {
+      unsubscribe();
+    };
+  }, [dispatch]);
 
-  async function signOutUser() {
-    await signOut(auth);
-  }
+  const signInWithGoogle = async () => {
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <header className="header">
       <span>Library</span>
       <nav>
-        {currentUser ? (
+        {username ? (
           <>
-            <span>{currentUser.displayName}</span>
-            <span onClick={signOutUser} className="sign-out">
+            <span>{username}</span>
+            <span className="sign-out" onClick={handleSignOut}>
               Sign out
             </span>
           </>
         ) : (
-          <span onClick={signInWithGoogle} className="sign-in">
+          <span className="sign-in" onClick={signInWithGoogle}>
             Sign in
           </span>
         )}
