@@ -8,7 +8,11 @@ import {
   browserLocalPersistence,
   onAuthStateChanged
 } from 'firebase/auth';
-import { setUserName, clearUserName, setUserId } from '../features/user/userSlice';
+import {
+  setUserName,
+  clearUserName,
+  setUserId
+} from '../features/user/userSlice';
 import { fetchBooks, resetBooks } from '../features/books/booksSlice';
 
 function Header() {
@@ -16,7 +20,7 @@ function Header() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         const username = user.displayName;
         const userId = user.uid;
@@ -30,10 +34,6 @@ function Header() {
         dispatch(resetBooks());
       }
     });
-
-    return () => {
-      unsubscribe();
-    };
   }, [dispatch]);
 
   const signInWithGoogle = async () => {

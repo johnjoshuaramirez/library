@@ -1,17 +1,24 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchBooks, updateBookStatus, deleteBook } from '../features/books/booksSlice';
+import {
+  fetchBooks,
+  updateStatus,
+  deleteBook
+} from '../features/books/booksSlice';
 
 function BookCard({ id, title, pages, author, isRead }) {
-  const userId = useSelector((state) => state.user.userId);
+  const userId = useSelector(state => state.user.userId);
   const dispatch = useDispatch();
 
-  const handleUpdateStatus = async () => {
-    dispatch(updateBookStatus(id));
-    dispatch(fetchBooks(userId));
+  const handleUpdateStatus = () => {
+    dispatch(updateStatus(id)).then(() => {
+      dispatch(fetchBooks(userId));
+    });
   };
+
   const handleDeleteBook = () => {
-    dispatch(deleteBook(id));
-    dispatch(fetchBooks(userId));
+    dispatch(deleteBook(id)).then(() => {
+      dispatch(fetchBooks(userId));
+    });
   };
 
   return (

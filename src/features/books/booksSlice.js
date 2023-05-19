@@ -6,7 +6,10 @@ import {
   getDocs,
   addDoc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  serverTimestamp,
+  query,
+  orderBy
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 
@@ -16,32 +19,34 @@ const initialState = {
   error: null
 };
 
-export const fetchBooks = createAsyncThunk('books/fetchBooks', async (userId) => {
+export const fetchBooks = createAsyncThunk('books/fetchBooks', async userId => {
   try {
     const booksCol = collection(db, 'books');
-    const booksSnapshot = await getDocs(booksCol);
+    const booksSnapshot = await getDocs(
+      query(booksCol, orderBy('timestamp', 'desc'))
+    );
     const books = booksSnapshot.docs
-      .map((doc) => ({
+      .map(doc => ({
         ...doc.data(),
         id: doc.id
       }))
-      .filter((book) => book.userId === userId);
+      .filter(book => book.userId === userId);
     return books;
   } catch (error) {
     console.error('Error fetching books:', error);
   }
 });
 
-export const addBook = createAsyncThunk('books/addBook', async (book) => {
+export const addBook = createAsyncThunk('books/addBook', async book => {
   try {
     const booksCol = collection(db, 'books');
-    await addDoc(booksCol, book);
+    await addDoc(booksCol, { ...book, timestamp: serverTimestamp() });
   } catch (error) {
     console.error('Error deleting book:', error);
   }
 });
 
-export const updateBookStatus = createAsyncThunk('books/updateBookStatus', async (id) => {
+export const updateStatus = createAsyncThunk('books/updateStatus', async id => {
   try {
     const bookRef = doc(db, 'books', id);
     const bookSnapshot = await getDoc(bookRef);
@@ -49,11 +54,11 @@ export const updateBookStatus = createAsyncThunk('books/updateBookStatus', async
       isRead: !bookSnapshot.data().isRead
     });
   } catch (error) {
-    console.error('Error updating book status:', error);
+    console.error('Error updating status:', error);
   }
 });
 
-export const deleteBook = createAsyncThunk('books/deleteBook', async (id) => {
+export const deleteBook = createAsyncThunk('books/deleteBook', async id => {
   try {
     const booksCol = collection(db, 'books');
     await deleteDoc(doc(booksCol, id));
@@ -66,15 +71,15 @@ export const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    resetBooks: (state) => {
+    resetBooks: state => {
       state.data = [];
       state.status = 'idle';
       state.error = null;
     }
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchBooks.pending, (state) => {
+      .addCase(fetchBooks.pending, state => {
         state.status = 'loading';
         state.error = null;
       })
